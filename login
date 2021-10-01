@@ -24,8 +24,6 @@ module use /apps/modulefiles
 setenv MAVEN_OPTS "-Dmaven.repo.local=/scratch/baltzell/m2"
 setenv SINGULARITY_CACHEDIR /scratch/baltzell/singularity-cache
 
-stty erase "^?" kill "^U" intr "^C" eof "^D" susp "^Z" hupcl ixon ixoff tostop tabs
-
 setenv EDITOR vim
 setenv VISUAL vim
 
