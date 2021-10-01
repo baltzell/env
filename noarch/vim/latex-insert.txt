@@ -1,0 +1,17 @@
+\documentclass[12pt]{article}
+\usepackage{times}
+\usepackage{mathtext}
+\usepackage{graphicx}
+\usepackage{comment}
+\usepackage{subfigure}
+
+\begin{document}
+
+
+
+
+
+
+
+\end{document}
+

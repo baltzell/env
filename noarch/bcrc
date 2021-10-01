@@ -1,0 +1,125 @@
+
+scale=20
+#scale=12
+
+dpe  =1.42305
+
+pi   =4*a(1)
+
+c    =29.9792458
+mk0  =0.497648
+mp   =0.93827203
+mn   =0.93956536
+md   =1.87561282
+mmu  =0.1134289264
+mpic =0.13957018
+mpi0 =0.1349766
+mkc  =0.493677
+me   =0.51099892
+m4he =3.7274
+m3he =2.8084
+hbarc=197.326968
+alpha=1/137.035999
+
+define abs(x) {
+    if (x < 0) {
+        return -x
+    } else {
+        return x
+    }
+}
+define ac(x) {
+    if (abs(x) < 10^-8) {
+        return pi/2
+    } else {
+        return a(sqrt(1-x*x)/x)
+    }
+}
+define as(x) {
+    if (abs(x-1) < 10^-8) {
+        return pi/2
+    } else {
+        return a(x/sqrt(1-x*x))
+    }
+}
+define r2d(x) { return x*180/pi   }
+define d2r(x) { return x*pi/180   }
+define cd(x)  { return c(d2r(x))  }
+define sd(x)  { return s(d2r(x))  }
+define t(x)   { return s(x)/c(x)  }
+define td(x)  { return t(d2r(x))  }
+define at(x)  { return a(x)       }
+define atd(x) { return r2d(a(x))  }
+define acd(x) { return r2d(ac(x)) }
+define asd(x) { return r2d(as(x)) }
+
+define elam(x)
+{
+    return hbarc*2*pi/x
+}
+
+define fact(n)
+{
+    z=1
+    for (i=1; i<=n; i++) { z *= i }
+    return z
+}
+define choose(n,m)
+{
+    return fact(n)/fact(n-m)/fact(m)
+}
+
+define quadsoln(n,a,b,c)
+{
+    abc=b*b-4*a*c
+    if (abc >= 0) {
+        if (n < 0) {
+            return (-b-sqrt(abc))/2/a
+        } else {
+            return (-b+sqrt(abc))/2/a
+        }
+    }
+    return -9999999
+}
+
+define pyth(a,b)
+{
+    if (a > b) {
+        return sqrt(a*a-b*b)
+    } else {
+        return sqrt(b*b-a*a)
+    }
+}
+
+define mag2(x,y)
+{
+    return mag4(x,y,0,0)
+}
+define mag3(x,y,z)
+{
+    return mag4(x,y,z,0)
+    return sqrt(x*x+y*y+z*z)
+}
+define mag4(x,y,z,w)
+{
+    return sqrt(x*x+y*y+z*z+w*w)
+}
+define sigma2fwhm(sigma)
+{
+    return 2*sqrt(2*l(2))*sigma
+}
+define changle(p,pid,n)
+{
+    if (pid == 321) {
+        m=0.493677
+    } else if (pid == 2212) {
+        m=0.93827203
+    } else if (pid==211) {
+        m=0.13957018
+    } else {
+        return 0
+    }
+    return ac(sqrt(1+m*m/p/p)/n);
+}
+
+
