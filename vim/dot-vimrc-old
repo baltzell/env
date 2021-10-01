@@ -1,145 +1,0 @@
-filetype plugin on
-filetype indent on
-
-" attempting to fix mouse in vim?:
-"set ttymouse=xterm2
-
-set grepprg=grep\ -nH\ $*
-
-noremap Y y$
-noremap j gk
-noremap k gj
-"noremap j gj
-"noremap k gk
-"inoremap <Enter> <Enter><space><bs> 
-"nnoremap o o<space><bs> 
-"nnoremap O O<space><bs>
-"com! Kbd enew|bw # |bn
-"map <F2><F3> :w<CR>
-map <F4> :set invhls<CR>:let @/="<C-r><C-w>"<CR>/<BS>
-
-set gdefault
-set linebreak 
-set display+=lastline
-set mouse=a
-
-set fo+=o
-
-set ruler
-set nowrap
-set novisualbell
-set noerrorbells
-
-set backspace=2
-set backspace=eol,start,indent
-set whichwrap+=<,>,h,l,[,]
-
-set autoindent
-set smartindent
-set cindent
-set smarttab
-set expandtab
-set tabstop=8
-set shiftwidth=4
-set softtabstop=4
-
-set foldmethod=manual
-set nofen
-set fdl=100
-
-set wildmenu
-set wildmode=list:longest,full
-
-set hlsearch
-set showmatch
-set smartcase
-set ignorecase
-set incsearch
-
-set scrolloff=2
-set laststatus=2
-
-set hidden
-
-set history=50
-set viminfo=/10,'10,f0,h,"\100
-
-autocmd BufWinLeave * mkview
-autocmd BufWinEnter * silent loadview
-
-autocmd BufNewfile,BufRead *akefile* set noexpandtab nosmarttab
-autocmd BufNewfile,BufRead *.mak set noexpandtab nosmarttab
-
-" MINIBUFEXPL
-"let g:miniBufExplVSplit = 15
-let g:miniBufExplUseSingleClick = 1
-let g:miniBufExplMapWindowNavArrows = 1
-let g:miniBufExplMapCTabSwitchBufs = 1
-highlight def link MBENormal Normal
-
-" TLIST
-let Tlist_Compact_Format = 1
-let Tlist_Display_Prototype = 1
-"hi MyTagListFileName guifg=red ctermfg=red
-"hi MyTagListTagName guifg=red ctermfg=red
-"let Tlist_Auto_Open = 1
-
-syntax on
-highlight NonText cterm=NONE ctermfg=NONE
-highlight Search cterm=bold ctermfg=White ctermbg=LightRed
-highlight StatusLine cterm=bold ctermbg=Yellow ctermfg=Black
-highlight Folded cterm=NONE ctermbg=DarkGrey ctermfg=Cyan
-
-function! CurDir()
-    let curdir = substitute(getcwd(), '/home/baltzell/', "~/", "g")
-    return curdir
-endfunction
-
-"set statusline=\ %F%m%r%h\ %w\ %r%{CurDir()}%h\ \ \ Line:\ %l/%L:%c
-set statusline=\ %F%m%r%h\ %w\ \ \ Line:\ %l/%L:%c
-
-"map  :w! :!rm -f %<.dvi %<.aux %<.log %<.bbl %<.toc; latex % >& /dev/null ; latex % >& /dev/null ; dvips -o%<.ps %<.dvi >& /dev/null 
-map  :w! :!./clnmk >& /dev/null & 
-"map  :w!  :!rm -f %<.dvi %<.aux /tmp/$USER-latex.log  :e /tmp/$USER-latex.log  :r!latex %  :r!xdvi -s 0 -geometry 702x880 %<.dvi 
-" remove .dvi and .aux files, run latex once, and then xdvi
-"map  :w! :!rm -f %<.dvi %<.aux /tmp/$USER-latex.log ; latex % >& /tmp/$USER-latex.log ; xdvi -s 0 -geometry 702x880 %<.dvi >>& /tmp/$USER-latex.log & 
-"map  :w! :!rm -f /tmp/$USER-latex.log ; latex % >& /tmp/$USER-latex.log ; xdvi +6 -s 0 %<.dvi >>& /tmp/$USER-latex.log & 
-" remove dvi and aux files, run latex twice, and then dvips and ghostview, and open log file
-"map  :w! :!rm -f %<.dvi %<.aux /tmp/$USER-latex.log ; latex % >& /tmp/$USER-latex.log ; latex % >>& /tmp/$USER-latex.log ; dvips -o%<.ps %<.dvi >>& /tmp/$USER-latex.log  ; \gv %<.ps >>& /tmp/$USER-latex.log :e /tmp/$USER-latex.log 
-" emulate LaTexIt for OSX
-"map  :w! :!$HOME/scripts/texit.pl % &
-" compile ROOT macro, and open log file
-"map  :w! :!rm -f /tmp/$USER-root.log ; echo .L %++ \| root >& /tmp/$USER-root.log :e /tmp/$USER-root.log 
-" compile and run ROOT, and open log file
-"map  :w! :!rm -f /tmp/$USER-root.log ; echo .x %++ \| root >& /tmp/$USER-root.log :e /tmp/$USER-root.log 
-" run ROOT macro
-"map  :w! :!root % 
-" run special script
-"map  :w! :!$HOME/docs/nabo/ananote/scripts/doall >& /dev/null & 
-
-
-" wildcard completion does NOT work with these, ARG
-" Open multiple files with one command
-function! Op(...)
-    "if(a:0 == 0)
-    " just split window if no arguments
-    "    sp
-    "else
-    if (a:0 != 0)
-        let i = a:0
-        while(i > 0)
-            execute 'let file = a:' . i
-            execute 'e ' . file
-            " could do a split instead:
-            "execute 'sp ' . file
-            let i = i -1
-        endwhile
-    endif
-endfunction
-com! -nargs=* -complete=file Op call Op(<f-args>)
-cab e Op 
-"com! -nargs=* -complete=file Sp call Sp(<f-args>)
-"cab sp Sp 
-
-colorscheme rastafari
-
