@@ -269,23 +269,23 @@ highlight def link MBENormal Normal
 
 
 "map  :w! :!texit.pl % >& /dev/null & 
-map  :w! :!make >& /dev/null & 
+"map  :w! :!make >& /dev/null & 
 "map  :w! :!pdflatex % >& /dev/null & 
 "map  :w! :!pdflatex % >& /dev/null & 
-map  :w! :!pdflatex cv.tex >& /dev/null & 
+"map  :w! :!pdflatex cv.tex >& /dev/null & 
 "map  :w! :!pdflatex 1st_round_comments.tex  >& /dev/null & 
 
-map <F2> :set wrap!<CR>
+"map <F2> :set wrap!<CR>
 
 
 " automatic commenting/uncommenting
 " just use ctrl-v block selection if comment characters are in the same column
-noremap <silent> ,cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
-noremap <silent> ,cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
+"noremap <silent> ,cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
+"noremap <silent> ,cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
 " insert templates into file:
-map  0i\begin{equation}\label{}\end{equation}
-map  0i\begin{figure}[htbp]\centering\includegraphics[]{}\caption{\label{}}\end{figure}
-map  0i\begin{table}[htbp]\centering\begin{tabular}{}\hline\end{tabular}\caption{\label{}}\end{table}
-map  0i..oo00OO00oo
+"map  0i\begin{equation}\label{}\end{equation}
+"map  0i\begin{figure}[htbp]\centering\includegraphics[]{}\caption{\label{}}\end{figure}
+"map  0i\begin{table}[htbp]\centering\begin{tabular}{}\hline\end{tabular}\caption{\label{}}\end{table}
+"map  0i..oo00OO00oo
 "map  0i#ifndef ___%___#define ___%___
 
