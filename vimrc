@@ -102,6 +102,7 @@ autocmd BufEnter *.ppl,*.pyxplot set filetype=gnuplot
 autocmd BufEnter *.lcsim         set filetype=xml
 autocmd BufEnter *.vimrc         set filetype=vim
 autocmd BufEnter *.groovy        set filetype=java
+autocmd BufEnter *.kt            set filetype=java
 
 let b:comment_leader = '#'
 autocmd FileType c,cpp,java,scala      let b:comment_leader = '// '
@@ -271,7 +272,7 @@ highlight def link MBENormal Normal
 "map  :w! :!texit.pl % >& /dev/null & 
 "map  :w! :!make >& /dev/null & 
 "map  :w! :!pdflatex % >& /dev/null & 
-"map  :w! :!pdflatex % >& /dev/null & 
+map  :w! :!pdflatex % >& /dev/null & 
 "map  :w! :!pdflatex cv.tex >& /dev/null & 
 "map  :w! :!pdflatex 1st_round_comments.tex  >& /dev/null & 
 
@@ -280,8 +281,8 @@ highlight def link MBENormal Normal
 
 " automatic commenting/uncommenting
 " just use ctrl-v block selection if comment characters are in the same column
-"noremap <silent> ,cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
-"noremap <silent> ,cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
+noremap <silent> ,cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
+noremap <silent> ,cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
 " insert templates into file:
 "map  0i\begin{equation}\label{}\end{equation}
 "map  0i\begin{figure}[htbp]\centering\includegraphics[]{}\caption{\label{}}\end{figure}
