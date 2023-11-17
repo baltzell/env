@@ -1,6 +1,9 @@
 
+
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
+
+#test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh" || true
 
 export PS1='lappi3> '
 
@@ -25,7 +28,7 @@ alias psb='ps -U $USER -o pid,start,%cpu,%mem,nice,stat,comm'
 alias grep='grep -n --color=auto'
 alias root='root -l'
 alias ssh='ssh -Y'
-
+alias gitpass='cat ~/.gitpass | pbcopy'
 
 function calc
 {
@@ -46,7 +49,7 @@ function vnctunnel
   vncpt=$1
   gwpt=$vncpt
   clon=clonsl3
-  if [ "$vncpt" = "lappi" ]
+  if [ "$vncpt" = "lappi3" ]
   then
       vncpt=3
       gwpt=6
@@ -54,9 +57,13 @@ function vnctunnel
   then
       vncpt=2
       gwpt=6
+  elif [ "$vncpt" = "dell" ]
+  then
+      vncpt=5
+      gwpt=6
   elif [ "$vncpt" = "llama" ]
   then
-      vncpt=1
+      vncpt=3
       gwpt=7
   fi
   if ! [ -z "$3" ]
@@ -74,13 +81,27 @@ function vnctunnel
 }
 
 function cvmfs {
-    if ! ( mount | grep $1 >& /dev/null )
-    then
-        sudo mount -t cvmfs $1 /cvmfs/$1 &
-    fi
+    y=( sft.cern.ch oasis.opensciencegrid.org )
+    [ $# -ne 0 ] && y=#@
+    for x in $y
+    do
+        if ! ( mount | grep $x >& /dev/null )
+        then
+            sudo mount -t cvmfs $x /cvmfs/$x
+        fi
+    done
 }
-cvmfs sft.cern.ch
-cvmfs oasis.opensciencegrid.org
-source /cvmfs/oasis.opensciencegrid.org/jlab/hallb/clas12/soft/setup.sh
-source /cvmfs/sft.cern.ch/lcg/app/releases/ROOT/6.24.06/arm64-mac115-clang120-opt/bin/thisroot.sh
+
+function vncviewer
+{
+#    ssh -L 590$1:localhost:590$1 clonsl3 && \
+    open /System/Library/CoreServices/Applications/Screen\ Sharing.app \
+        vnc://localhost:590$1
+}
+
+function title {
+    echo -ne "\033]0;"$*"\007"
+}
+
+
 
