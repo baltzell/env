@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+import sys
+import argparse
+import numpy
+import ROOT
+
+cli = argparse.ArgumentParser(description='Convert a text file to a row-wise ROOT ntuple.', epilog='If column names are not specified via the command-line, the first row of the text file is used if it contains strings, else generic, numbered names are used.')
+cli.add_argument('-c', help='column names in CSV format', metavar='CSV', default=None)
+cli.add_argument('-o', help='output ROOT file', type=str, metavar='FILE', default=None)
+cli.add_argument('file', help='input TXT file', type=str)
+args = cli.parse_args(sys.argv[1:])
+
+with open(args.file,'r') as file:
+
+    for line in file.readlines():
+        try:
+            [ float(x) for x in line.strip().split() ]
+            varnames = [ 'x%d'%i for i in range(len(line.strip().split())) ]
+            header = False
+        except:
+            varnames = line.strip().split()
+            header = True
+        break
+
+    if args.c is not None:
+        if len(varnames) != len(args.c.split(',')):
+            cli.error('Column count mismatch!')
+        varnames = args.c.split(',')
+
+    file.seek(0)
+    if args.o is None:
+        g = ROOT.TFile(args.file+'.root', 'CREATE')
+    else:
+        g = ROOT.TFile(args.o, 'CREATE')
+    t = ROOT.TNtupleD('t', 'makent', ':'.join(varnames))
+    for line in file.readlines():
+        if header:
+            header = False
+            continue
+        x = [ float(y) for y in line.strip().split() ]
+        t.Fill(numpy.array(x))
+    g.Write()
+
