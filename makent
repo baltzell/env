@@ -1,43 +1,56 @@
 #!/usr/bin/env python3
+import os
 import sys
 import argparse
-import numpy
-import ROOT
 
-cli = argparse.ArgumentParser(description='Convert a text file to a row-wise ROOT ntuple.', epilog='If column names are not specified via the command-line, the first row of the text file is used if it contains strings, else generic, numbered names are used.')
-cli.add_argument('-c', help='column names in CSV format', metavar='CSV', default=None)
-cli.add_argument('-o', help='output ROOT file', type=str, metavar='FILE', default=None)
+cli = argparse.ArgumentParser(description='Convert a text file to a ROOT ntuple.', epilog='If column names are not specified via the command-line, the first row of the text file is used if it contains strings, else generic, numbered names are used.')
+cli.add_argument('-c', help='colon-separated column names')
+cli.add_argument('-o', help='output ROOT file')
 cli.add_argument('file', help='input TXT file', type=str)
 args = cli.parse_args(sys.argv[1:])
+
+if args.o is None:
+    args.o = args.file+'.root'
+if not os.path.isfile(args.file):
+    cli.error('Input file does not exist:  '+args.file)
+if os.path.isfile(args.o):
+    cli.error('Output file already exists:  '+args.o)
+
+import ROOT
+import numpy
 
 with open(args.file,'r') as file:
 
     for line in file.readlines():
-        try:
-            [ float(x) for x in line.strip().split() ]
-            varnames = [ 'x%d'%i for i in range(len(line.strip().split())) ]
-            header = False
-        except:
-            varnames = line.strip().split()
-            header = True
+        first_row = line.strip().split()
         break
 
-    if args.c is not None:
-        if len(varnames) != len(args.c.split(',')):
-            cli.error('Column count mismatch!')
-        varnames = args.c.split(',')
+    try:
+        [ float(x) for x in first_row ]
+        header = False
+    except Exceptions as e:
+        header = True
+
+    if args.c is None:
+        if header:
+            args.c = ':'.join(first_row)
+        else:
+            args.c = ':'.join( [ 'x%d'%x for x in range(len(first_row)) ] )
+
+    elif len(args.c.split(':')) != len(first_row):
+        cli.error('Column count mismatch between -c and first row in file.')
 
     file.seek(0)
-    if args.o is None:
-        g = ROOT.TFile(args.file+'.root', 'CREATE')
-    else:
-        g = ROOT.TFile(args.o, 'CREATE')
-    t = ROOT.TNtupleD('t', 'makent', ':'.join(varnames))
+    g = ROOT.TFile(args.o, 'CREATE')
+    t = ROOT.TNtupleD('t', 'makent', args.c)
     for line in file.readlines():
-        if header:
-            header = False
-            continue
-        x = [ float(y) for y in line.strip().split() ]
-        t.Fill(numpy.array(x))
+        if not header or t.GetEntries() > 0:
+            try:
+                x = [ float(y) for y in line.strip().split() ]
+                t.Fill(numpy.array(x))
+            except Exception as e:
+                print('ERROR:  Ignoring bad data on row #%d:  %s'%(t.GetEntries(),line.strip()))
     g.Write()
+
+print('Created %s with %d entries from %s with column names %s.'%(args.o,t.GetEntries(),args.file,args.c))
 
