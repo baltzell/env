@@ -1,0 +1,20 @@
+
+Host ifarm* clon* clara*
+Hostname %h.jlab.org.
+
+Host *.jlab.org
+Hostname %h.
+
+Match host scilogin.jlab.org.,scilogin?.jlab.org.,login.jlab.org.,login?.jlab.org.,acclogin.jlab.org.,acclogin?.jlab.org.,hallgw.jlab.org.,hallgw?.jlab.org.
+ProxyCommand none
+
+#Match host clon*.jlab.org.,ifarm*.jlab.org. exec "test x$SHELL != x/bin/rzsh && ifconfig en0 | grep 129.57.82."
+Match host clon*.jlab.org.,ifarm*.jlab.org.,clara*.jlab.org. exec "test x$SHELL != x/bin/rzsh"
+ProxyJump scilogin.jlab.org.
+
+Match host *.jlab.org.
+User baltzell
+ControlMaster auto
+ControlPath ~/.ssh/cm/%C.sock
+ControlPersist 10m
+
