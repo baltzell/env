@@ -5,11 +5,12 @@
     <RootMenu onroot="123">
         <Program label="terminal">/home/baltzell/bin/mrxvt</Program>
         <Program label="terminal2">/home/baltzell/apps/usr/local/bin/st</Program>
-        <Program label="google-chrome">google-chrome.sh</Program>
+        <Program label="web-browser">/home/baltzell/scripts/web-browser</Program>
         <Program label="jnet">ssh clonpc19 google-chrome.sh jnet.jlab.org</Program>
         <Program label="clascss">clascss</Program>
         <Program label="clascss-alarm">clascss-alarm</Program>
         <Separator/>
+        <Program label="Lock Screen">xscreensaver</Program>
         <Restart label="Restart" icon="restart.png"/>
         <Exit label="Exit" confirm="true" icon="quit.png"/>
     </RootMenu>
