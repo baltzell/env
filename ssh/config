@@ -1,3 +1,7 @@
+Host *
+ServerAliveInterval 60
+TCPKeepAlive no
+ForwardX11 yes
 
 Host ifarm* clon* clara*
 Hostname %h.jlab.org.
