@@ -7,18 +7,15 @@ alias rm='rm -i'
 alias mv='mv -i'
 alias cp='cp -i'
 alias su='su -l'
+#alias ssh='ssh -Y'
 alias cls='clear ; ls'
-alias psb='ps -U $USER -o pid,start,%cpu,%mem,nice,stat,comm'
 alias grep='grep -n --color=auto'
-alias ssh='ssh -Y'
-alias gitpass='cat ~/.gitpass | pbcopy'
-
+alias psb='ps -U $USER -o pid,start,%cpu,%mem,nice,stat,comm'
 alias gvim='f(){open /Applications/MacVim.app --args $1};f'
 alias netbeans='open /Applications/Apache\ NetBeans.app --args --jdkhome $JAVA_HOME'
 alias visualvm='open /Applications/VisualVM.app --args --jdkhome $JAVA_HOME'
-
-alias vncviewer='f(){open /Applications/VNC\ Viewer.app --args localhost:590${1#:}};f'
-alias vncviewerosx='f(){open vnc://localhost:590${1#:}};f'
+#alias vncviewer='f(){open /Applications/VNC\ Viewer.app --args localhost:590${1#:}};f'
+alias vncviewer='f(){open vnc://localhost:590${1#:}};f'
 alias vncssh='f(){ssh -L 590${2#:}:localhost:5901${2#:} $1};f'
 
 function cvmfs {
@@ -32,4 +29,4 @@ function cvmfs {
     done
 }
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+#[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
