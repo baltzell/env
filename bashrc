@@ -13,15 +13,13 @@ alias mv="mv -i"
 alias ls="ls --color=auto"
 alias grep="grep --color=auto"
 alias cls="clear ; ls"
-alias psb="/bin/ps -U $USER -o pid,start,%cpu,%mem,nice,stat,comm"
-alias dateit="/bin/date +%F_%H-%M-%S"
-alias root="root -l"
-alias calc="$HOME/scripts/calc.sh"
-alias tree="$HOME/apps/bin/tree"
-alias tmux="export TERM=screen-256color && tmux"
+alias psb="ps -U $USER -o pid,start,%cpu,%mem,nice,stat,comm"
+alias dateit="date +%F_%H-%M-%S"
+alias vim="nvim"
 
 export PS1="\h> "
 export GREP_COLOR=32
+export GREP_COLORS="mt=32"
 
 export EDITOR=vim
 export VISUAL=vim
